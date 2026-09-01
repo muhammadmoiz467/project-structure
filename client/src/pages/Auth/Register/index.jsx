@@ -1,13 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Col, Form, Input, Row, Typography } from 'antd'
 import { Link } from 'react-router-dom';
 
 const { Title, Paragraph } = Typography;
 const { Item } = Form;
 
+const initialState = { name: '', email: '', password: '', confirmPassword: '' }
+
 const Register = () => {
-  return (
-    <main className='auth p-3 p-md-4 p-lg-5'>
+
+    const [state, setState] = useState(initialState)
+    const [isProcessing, setIsProcessing] = useState(false)
+
+
+    const handleChange = e => setState(s => ({ ...s, [e.target.name]: e.target.value }))
+
+    const handleSubmit = e => {
+
+        e.preventDefault()
+        setIsProcessing(true)
+        console.log('state', state)
+        setIsProcessing(false)
+        console.log(window.getRandomId())
+        // let { name, email, password, confirmPassword } = state
+    
+    }
+
+    return (
+        <main className='auth p-3 p-md-4 p-lg-5'>
             <div className="card p-3 p-md-4">
                 <Row>
                     <Col span={24}>
@@ -17,26 +37,26 @@ const Register = () => {
                     <Col span={24}>
                         <Form layout='vertical'>
                             <Item label="Name" required>
-                                <Input placeholder='Enter your name' size='large' name="name"  />
+                                <Input placeholder='Enter your name' size='large' name="name" value={state.name} onChange={handleChange} />
                             </Item>
                             <Item label="Email" required>
-                                <Input placeholder='Enter your email' size='large' name="email" />
+                                <Input placeholder='Enter your email' size='large' name="email" value={state.email} onChange={handleChange} />
                             </Item>
                             <Item label="Password" required>
-                                <Input.Password placeholder='Enter your password' size='large' name="password" />
+                                <Input.Password placeholder='Enter your password' size='large' name="password" value={state.password} onChange={handleChange} />
                             </Item>
                             <Item label="Confirm Password" required>
-                                <Input.Password placeholder='Confirm your password' size='large' name="confirmPassword" />
+                                <Input.Password placeholder='Confirm your password' size='large' name="confirmPassword" value={state.confirmPassword} onChange={handleChange} />
                             </Item>
                             <Item className='mb-0'>
-                                <Button type="primary" size='large' block className='mb-2' htmlType="submit">Register</Button>
+                                <Button type="primary" size='large' block className='mb-2' htmlType="submit" loading={isProcessing} onClick={handleSubmit}>Register</Button>
                             </Item>
                         </Form>
                     </Col>
                 </Row>
             </div>
         </main>
-  )
+    )
 }
 
 export default Register
