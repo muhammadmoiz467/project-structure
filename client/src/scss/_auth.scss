@@ -1,0 +1,15 @@
+.auth {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #16222A;
+    background: linear-gradient(to right, #16222A, #3A6073);
+
+    .card {
+        max-width: 500px;
+        width: 100%;
+        margin: 0 auto;
+        // box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+}
