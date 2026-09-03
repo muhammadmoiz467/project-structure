@@ -16,13 +16,21 @@ const Register = () => {
     const handleChange = e => setState(s => ({ ...s, [e.target.name]: e.target.value }))
 
     const handleSubmit = e => {
+        let { name, email, password, confirmPassword } = state
+
+        name = name.trim()
+        if(!window.isValidName(name)){ return window.toastify("Please enter your name", "error") }
+        if(!window.isValidEmail(email)){ return window.toastify("Please enter a valid email", "error") }
+        if(password.length < 6){ return window.toastify("Password must be at least 6 characters long", "error") }
+        if(password !== confirmPassword){ return window.toastify("Passwords do not match", "error") }
 
         e.preventDefault()
         setIsProcessing(true)
         console.log('state', state)
         setIsProcessing(false)
         console.log(window.getRandomId())
-        // let { name, email, password, confirmPassword } = state
+        window.toastify("Register Successfully", "success")
+        console.log("Date().now.toString(36)", Date.now().toString(36))
     
     }
 
