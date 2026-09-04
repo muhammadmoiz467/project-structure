@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Col, Form, Input, Row, Typography } from 'antd'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const { Title, Paragraph } = Typography;
 const { Item } = Form;
@@ -11,11 +12,13 @@ const Register = () => {
 
     const [state, setState] = useState(initialState)
     const [isProcessing, setIsProcessing] = useState(false)
+    const navigate = useNavigate()
 
 
     const handleChange = e => setState(s => ({ ...s, [e.target.name]: e.target.value }))
 
     const handleSubmit = e => {
+        e.preventDefault()
         let { name, email, password, confirmPassword } = state
 
         name = name.trim()
@@ -23,15 +26,31 @@ const Register = () => {
         if(!window.isValidEmail(email)){ return window.toastify("Please enter a valid email", "error") }
         if(password.length < 6){ return window.toastify("Password must be at least 6 characters long", "error") }
         if(password !== confirmPassword){ return window.toastify("Passwords do not match", "error") }
-
-        e.preventDefault()
-        setIsProcessing(true)
-        console.log('state', state)
-        setIsProcessing(false)
-        console.log(window.getRandomId())
-        window.toastify("Register Successfully", "success")
-        console.log("Date().now.toString(36)", Date.now().toString(36))
     
+        const formData = { name, email, password }
+
+        setIsProcessing(true)
+
+        axios.post(window.api + '/api/auth/register', formData)
+        .then((res) => {
+            const { status, data } = res
+            if (status === 201) {
+                window.toastify(data.message, "success")
+                setState(initialState)
+                navigate("/auth/login")
+            }
+        })
+        .catch(error => {
+            const { status, data } = error.response
+            if (status === 400) {
+                window.toastify(data.message, "error")
+            } else {
+                window.toastify("Something went wrong", "error")
+            }
+        })
+        .finally(() => {
+            setIsProcessing(false)
+        })
     }
 
     return (

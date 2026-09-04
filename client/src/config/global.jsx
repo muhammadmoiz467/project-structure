@@ -10,4 +10,4 @@ window.isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 window.isValidPassword = (password) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{6,}$/.test(password);
 window.isValidName = (name) => /^[a-zA-Z\s]{3,}$/.test(name);
 
-// window.api = import.meta.env.VITE_API_URL;
+window.api = import.meta.env.VITE_API_URL;
