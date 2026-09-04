@@ -64,7 +64,7 @@ router.get("/user", verifytoken, async (req, res) => {
     try {
         
         const { uid } = req
-        const user = await Users.findOne({ uid: req.uid });
+        const user = await Users.findOne({ uid });
 
         if (!user) { return res.status(400).json({ message: "User not found", isError: true }) }
 
